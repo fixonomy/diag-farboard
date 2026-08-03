@@ -12,9 +12,11 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Generate Gradle wrapper
-        run: cd DiagFarbord && gradle wrapper && chmod +x gradlew
+        run: cd DiagFarbord && gradle wrapper --gradle-version 8.9 && chmod +x gradlew
+      - name: Accept Android SDK licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
       - name: Build APK
-        run: cd DiagFarbord && ./gradlew assembleDebug
+        run: cd DiagFarbord && ./gradlew assembleDebug --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
